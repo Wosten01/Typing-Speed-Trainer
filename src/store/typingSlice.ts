@@ -1,9 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { getRandomPhrase } from "../data/Phrases";
+
+interface CountPayload {
+  num: number;
+}
 
 const typingSlice = createSlice({
   name: "typing",
   initialState: {
-    text: "Type this example text quickly!",
+    text:  getRandomPhrase(),
     input: "",
     correct: 0,
     incorrect: 0,
@@ -14,11 +19,11 @@ const typingSlice = createSlice({
     setInput: (state, action) => {
       state.input = action.payload;
     },
-    setCorrect: (state) => {
-      state.correct += 1;
+    setCorrect: (state,  action: PayloadAction<CountPayload>) => {
+      state.correct = action.payload.num;
     },
-    setIncorrect: (state) => {
-      state.incorrect += 1;
+    setIncorrect: (state, action: PayloadAction<CountPayload>) => {
+      state.incorrect = action.payload.num;
     },
     startTimer: (state) => {
       state.startTime = Date.now();
