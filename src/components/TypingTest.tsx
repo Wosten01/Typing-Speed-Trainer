@@ -12,6 +12,7 @@ import {
   newText,
   regenerateText,
 } from "../store/typingSlice";
+import Button from "./Button";
 
 const TypingTest: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -129,35 +130,15 @@ const TypingTest: React.FC = () => {
 
         <div className="mt-4 text-center flex flex-col justify-center">
           <div className="flex justify-center gap-x-5">
-            <button
-              onClick={handleNextText}
-              className="text-lg bg-gray-800 text-dark-main px-4 py-2 rounded-lg hover:bg-gray-900 transition duration-300"
-            >
-              Next text
-            </button>
+            <Button text={"Next text"} onClick={handleNextText} />
             {!testStarted && !(endTime > 0) && (
-              <button
-                onClick={handleStart}
-                className="text-lg bg-gray-800 text-dark-main px-4 py-2 rounded-lg hover:bg-gray-900 transition duration-300"
-              >
-                Start Test
-              </button>
+              <Button text={"Start Test"} onClick={handleStart} />
             )}
           </div>
           {endTime > 0 && (
             <span className="flex justify-center gap-x-10">
-              <button
-                onClick={handleRestart}
-                className="text-lg bg-gray-800 text-dark-main px-4 py-2 rounded-lg hover:bg-gray-900 transition duration-300"
-              >
-                Restart Test
-              </button>
-              <button
-                onClick={handleNewText}
-                className="text-lg bg-gray-800 text-dark-main px-4 py-2 rounded-lg hover:bg-gray-900 transition duration-300"
-              >
-                New Text
-              </button>
+              <Button text={"Restart Test"} onClick={handleRestart} />
+              <Button text={" New Text"} onClick={handleNewText} />
             </span>
           )}
           <div className="text-lg mt-4 text-dark-accent">
