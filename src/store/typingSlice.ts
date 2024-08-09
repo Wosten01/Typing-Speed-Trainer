@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getRandomPhrase } from "../data/Phrases";
+import { getRandomPhrase } from "../data/phrase";
 
 interface CountPayload {
   num: number;
@@ -8,7 +8,7 @@ interface CountPayload {
 const typingSlice = createSlice({
   name: "typing",
   initialState: {
-    text:  getRandomPhrase(),
+    text: getRandomPhrase(),
     input: "",
     correct: 0,
     incorrect: 0,
@@ -19,7 +19,7 @@ const typingSlice = createSlice({
     setInput: (state, action) => {
       state.input = action.payload;
     },
-    setCorrect: (state,  action: PayloadAction<CountPayload>) => {
+    setCorrect: (state, action: PayloadAction<CountPayload>) => {
       state.correct = action.payload.num;
     },
     setIncorrect: (state, action: PayloadAction<CountPayload>) => {
@@ -31,10 +31,32 @@ const typingSlice = createSlice({
     endTimer: (state) => {
       state.endTime = Date.now();
     },
+    resetEndTimer: (state) => {
+      state.endTime = 0;
+    },
+    resetInput: (state) => {
+      state.input = "";
+    },
+    regenerateText: (state) => {
+      state.text = getRandomPhrase();
+    },
+    newText: (state) => {
+      state.input = "";
+      typingSlice.caseReducers.regenerateText(state);
+    },
   },
 });
 
-export const { setInput, setCorrect, setIncorrect, startTimer, endTimer } = typingSlice.actions;
+export const {
+  setInput,
+  setCorrect,
+  setIncorrect,
+  startTimer,
+  endTimer,
+  resetEndTimer,
+  newText,
+  resetInput,
+  regenerateText,
+} = typingSlice.actions;
 
-
-export default typingSlice.reducer
+export default typingSlice.reducer;

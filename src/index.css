@@ -8,3 +8,17 @@
   -moz-user-select: none; /* Отключает выделение текста в Firefox */
   -ms-user-select: none; /* Отключает выделение текста в Internet Explorer */
 }
+
+.blinking-cursor {
+  animation: blink 0.9s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0;
+  }
+}
