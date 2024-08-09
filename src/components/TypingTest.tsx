@@ -25,7 +25,7 @@ const TypingTest: React.FC = () => {
   const handleStart = () => {
     setTestStarted(true);
     dispatch(startTimer());
-    inputRef.current?.focus(); // Focus on input
+    inputRef.current?.focus(); 
   };
 
   const handleRestart = () => {
@@ -130,10 +130,10 @@ const TypingTest: React.FC = () => {
 
         <div className="mt-4 text-center flex flex-col justify-center">
           <div className="flex justify-center gap-x-5">
-            <Button text={"Next text"} onClick={handleNextText} />
             {!testStarted && !(endTime > 0) && (
               <Button text={"Start Test"} onClick={handleStart} />
             )}
+            <Button text={"Next text"} onClick={handleNextText} />
           </div>
           {endTime > 0 && (
             <span className="flex justify-center gap-x-10">
