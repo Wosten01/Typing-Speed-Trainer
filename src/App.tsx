@@ -9,5 +9,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-git commit "Made it look like monkeytype." 

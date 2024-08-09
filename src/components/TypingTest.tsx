@@ -46,15 +46,20 @@ const TypingTest: React.FC = () => {
 
   const words = text.split("");
   const typedWords = input.split("");
-  const wordCount = input.trim().split(/\s+/).filter(Boolean).length; 
+  const wordCount = input.trim().split(/\s+/).filter(Boolean).length;
+  const wordsAmount = text.trim().split(/\s+/).length
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-dark-background ">
       <div className="max-w-5xl w-full mx-4 p-4">
         <div
-          className={`p-4 text-dark-text bg-dark-background text-4xl  text-left tracking-wide no-copy `}
-          onClick={() => inputRef.current?.focus()} 
+          className={`flex flex-col p-4 text-dark-text bg-dark-background text-4xl font-mono text-left no-copy space-y-5 `}
+          onClick={() => inputRef.current?.focus()}
         >
+          <p>
+            <span className="font-bold text-dark-accent text-2xl"> {`Words Typed: ${wordCount}/${wordsAmount}`}</span>
+          </p>
+          <p>
           {words.map((char, index) => {
             const typedChar = typedWords[index] || "";
             return (
@@ -64,7 +69,7 @@ const TypingTest: React.FC = () => {
                   char === typedChar
                     ? "text-dark-main" // correct symbol
                     : typedChar
-                    ? "text-dark-incorrect" // Incorrect symbol
+                    ? "text-dark-incorrect" // incorrect symbol
                     : "text-dark-secondary" // uninterred symbol
                 }`}
               >
@@ -74,9 +79,11 @@ const TypingTest: React.FC = () => {
           })}
           {testStarted && (
             <span className="border-l-2 border-black animate-blink ml-1">
-              &nbsp; 
+              &nbsp;
             </span>
           )}
+          </p>
+          
         </div>
 
         <input
@@ -84,7 +91,7 @@ const TypingTest: React.FC = () => {
           value={input}
           onChange={handleChange}
           ref={inputRef}
-          className="absolute opacity-0" 
+          className="absolute opacity-0"
           autoFocus
         />
 
@@ -105,10 +112,6 @@ const TypingTest: React.FC = () => {
             <p>
               Incorrect Characters:{" "}
               <span className="font-bold text-dark-accent">{incorrect}</span>
-            </p>
-            <p>
-              Words Typed:{" "}
-              <span className="font-bold text-dark-accent">{wordCount}</span>
             </p>
           </div>
           {endTime > 0 && (
