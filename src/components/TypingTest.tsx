@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../store";
+import { WORD_PLUS_SPACE } from "../data/constants";
 import {
   setInput,
   setCorrect,
@@ -12,6 +13,8 @@ import {
   newText,
   regenerateText,
 } from "../store/typingSlice";
+import Button from "./Button";
+import ReloadIcon from "./ReloadIcon";
 
 const TypingTest: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -24,14 +27,14 @@ const TypingTest: React.FC = () => {
   const handleStart = () => {
     setTestStarted(true);
     dispatch(startTimer());
-    inputRef.current?.focus(); // Focus on input
+    inputRef.current?.focus();
   };
 
   const handleRestart = () => {
-    setTestStarted(true);
-    dispatch(startTimer());
     dispatch(resetEndTimer());
     dispatch(resetInput());
+    dispatch(setCorrect({ num: 0 }));
+    dispatch(setIncorrect({ num: 0 }));
     inputRef.current?.focus();
   };
 
@@ -49,45 +52,71 @@ const TypingTest: React.FC = () => {
   };
 
   useEffect(() => {
-    if (input === text && testStarted) {
+    if (input.length === text.length && testStarted) {
       dispatch(endTimer());
       setTestStarted(false);
     }
   }, [input, text, testStarted, dispatch]);
 
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (
+      !testStarted &&
+      e.key !== "Shift" &&
+      e.key !== "Control" &&
+      e.key !== "Alt"
+    ) {
+      setTestStarted(true);
+      dispatch(startTimer());
+      inputRef.current?.focus();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [testStarted, input, text, dispatch]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (testStarted) {
       const value = e.target.value;
-
-      dispatch(setInput(value));
-      const correctCount = value
-        .split("")
-        .filter((char, index) => char === text[index]).length;
-      const incorrectCount = value.length - correctCount;
-      dispatch(setCorrect({ num: correctCount }));
-      dispatch(setIncorrect({ num: incorrectCount }));
+      if (value.length <= text.length) {
+        dispatch(setInput(value));
+        const correctCount = value
+          .split("")
+          .filter((char, index) => char === text[index]).length;
+        const incorrectCount = value.length - correctCount;
+        dispatch(setCorrect({ num: correctCount }));
+        dispatch(setIncorrect({ num: incorrectCount }));
+      }
     }
   };
 
   const words = text.split("");
   const typedWords = input.split("");
-  const wordCount = input.trim().split(/\s+/).filter(Boolean).length;
+
+  const matches = text.slice(0, input.length).match(WORD_PLUS_SPACE);
+  const wordCount = matches
+    ? matches.length + (input.length == text.length ? 1 : 0)
+    : 0;
+
   const wordsAmount = text.trim().split(/\s+/).length;
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-dark-background ">
       <div className="max-w-5xl w-full mx-4 p-4">
         <div
-          className={`flex flex-col p-4 text-dark-text bg-dark-background text-3xl font-mono  no-copy space-y-5 `}
+          className={`flex flex-col p-4 text-dark-text bg-dark-background text-3xl font-mono no-copy space-y-5 `}
           onClick={() => inputRef.current?.focus()}
         >
           <p>
             <span className="font-bold text-dark-accent text-2xl">
-              {" "}
-              {`Words Typed: ${wordCount}/${wordsAmount}`}
+              {`Typed: ${wordCount}/${wordsAmount}`}
             </span>
           </p>
-          <p>
+          <p className="text-left">
             {words.map((char, index) => {
               const typedChar = typedWords[index] || "";
               const isLastTypedChar = index === typedWords.length;
@@ -95,7 +124,7 @@ const TypingTest: React.FC = () => {
               return (
                 <span
                   key={index}
-                  className={`duration-[275ms] ${
+                  className={`relative duration-[375ms] ${
                     char === typedChar
                       ? "text-dark-main" // correct symbol
                       : typedChar
@@ -106,15 +135,14 @@ const TypingTest: React.FC = () => {
                   {testStarted && isLastTypedChar && (
                     <span className="blinking-cursor text-dark-accent">|</span>
                   )}
-                  {char}
+                  {char === " " &&
+                  typedChar !== char &&
+                  index < typedWords.length
+                    ? "_"
+                    : char}
                 </span>
               );
             })}
-            {testStarted && typedWords.length === words.length && (
-              <span className="blinking-cursor text-dark-accent p-0 m-0">
-                |
-              </span>
-            )}
           </p>
         </div>
 
@@ -123,44 +151,26 @@ const TypingTest: React.FC = () => {
           value={input}
           onChange={handleChange}
           ref={inputRef}
-          className="absolute opacity-0"
+          className="absolute opacity-0 "
           autoFocus
         />
 
         <div className="mt-4 text-center flex flex-col justify-center">
           <div className="flex justify-center gap-x-5">
-            <button
-              onClick={handleNextText}
-              className="text-lg bg-gray-800 text-dark-main px-4 py-2 rounded-lg hover:bg-gray-900 transition duration-300"
-            >
-              Next text
-            </button>
-            {!testStarted && !(endTime > 0) && (
-              <button
-                onClick={handleStart}
-                className="text-lg bg-gray-800 text-dark-main px-4 py-2 rounded-lg hover:bg-gray-900 transition duration-300"
-              >
-                Start Test
-              </button>
-            )}
+            <ReloadIcon
+              onClick={handleNewText}
+              size={{
+                width: 30,
+                height: 30,
+              }}
+            />
           </div>
           {endTime > 0 && (
             <span className="flex justify-center gap-x-10">
-              <button
-                onClick={handleRestart}
-                className="text-lg bg-gray-800 text-dark-main px-4 py-2 rounded-lg hover:bg-gray-900 transition duration-300"
-              >
-                Restart Test
-              </button>
-              <button
-                onClick={handleNewText}
-                className="text-lg bg-gray-800 text-dark-main px-4 py-2 rounded-lg hover:bg-gray-900 transition duration-300"
-              >
-                New Text
-              </button>
+              <Button text={"Restart Test"} onClick={handleRestart} />
             </span>
           )}
-          <div className="text-lg mt-4 text-dark-accent">
+          {/* <div className="text-lg mt-4 text-dark-accent">
             <p>
               Correct Characters:{" "}
               <span className="font-bold text-dark-accent">{correct}</span>
@@ -169,7 +179,7 @@ const TypingTest: React.FC = () => {
               Incorrect Characters:{" "}
               <span className="font-bold text-dark-accent">{incorrect}</span>
             </p>
-          </div>
+          </div> */}
           {endTime > 0 && (
             <p className="mt-4 text-lg font-semibold text-dark-accent">
               {`WPM: ${(
