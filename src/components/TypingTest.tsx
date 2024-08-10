@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../store";
 import { WORD_PLUS_SPACE } from "../data/constants";
@@ -15,6 +15,8 @@ import {
   startTest,
   stopTest,
 } from "../store/typingSlice";
+
+import { closeModal, openModal } from "../store/modalSlice";
 import ArrowIcon from "./Buttons/ArrowIcon";
 import TypingDisplay from "./TypingDisplay";
 import Modal from "./Statistics/Modal";
@@ -26,7 +28,6 @@ function TypingTest() {
   );
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const words = text.split("");
   const typedWords = input.split("");
@@ -45,7 +46,7 @@ function TypingTest() {
     dispatch(setIncorrect({ num: 0 }));
     dispatch(newText());
     inputRef.current?.focus();
-    setIsModalOpen(false);
+    dispatch(closeModal())
   };
 
   const handleRestart = () => {
@@ -55,7 +56,7 @@ function TypingTest() {
     dispatch(setCorrect({ num: 0 }));
     dispatch(setIncorrect({ num: 0 }));
     inputRef.current?.focus();
-    setIsModalOpen(false);
+    dispatch(closeModal())
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -90,7 +91,7 @@ function TypingTest() {
     if (input.length === text.length && testStarted) {
       dispatch(endTimer());
       dispatch(stopTest())
-      setIsModalOpen(true);
+      dispatch(openModal())
     }
   }, [input, text, testStarted, dispatch]);
 
@@ -129,7 +130,6 @@ function TypingTest() {
         </div>
 
         <Modal
-          isOpen={isModalOpen}
           inputRef={inputRef}
           handleNextText={handleNewText}
           handleRestart={handleRestart}

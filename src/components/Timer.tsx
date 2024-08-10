@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { RootState } from "../store";
+import { useSelector } from "react-redux";
 
-interface TimerProps {
-  startTime: number;
-  testStarted: boolean;
-}
+function Timer() {
+  const { testStarted, startTime,} = useSelector(
+    (state: RootState) => state.typing
+  );
+  const { isOpen } = useSelector(
+    (state: RootState) => state.modal
+  );
 
-function Timer({ startTime, testStarted }: TimerProps) {
   const [elapsedTime, setElapsedTime] = useState(0);
 
   useEffect(() => {
@@ -23,7 +27,7 @@ function Timer({ startTime, testStarted }: TimerProps) {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [startTime, testStarted]);
+  }, [startTime, testStarted, isOpen]);
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);

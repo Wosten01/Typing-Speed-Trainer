@@ -1,7 +1,5 @@
 import React from "react";
 import Timer from "./Timer";
-import { RootState } from "../store";
-import { useSelector } from "react-redux";
 
 interface TypingDisplayProps {
   words: string[];
@@ -20,10 +18,7 @@ function TypingDisplay({
   wordsAmount,
   inputRef,
   handleChange,
-  testStarted,
 }: TypingDisplayProps) {
-  const { startTime } = useSelector((state: RootState) => state.typing);
-
   return (
     <main>
       <div
@@ -35,7 +30,7 @@ function TypingDisplay({
             {`Typed: ${wordCount}/${wordsAmount}`}
           </span>
           <p className=" mr-5">
-          <Timer startTime={startTime} testStarted={testStarted} />
+          <Timer />
           </p>
           
         </div>
@@ -55,7 +50,7 @@ function TypingDisplay({
                     : "text-dark-secondary" // unentered symbol
                 } space-x-0`}
               >
-                {testStarted && isLastTypedChar && (
+                { isLastTypedChar && (
                   <span className="blinking-cursor text-dark-accent">|</span>
                 )}
                 {char === " " && typedChar !== char && index < typedWords.length

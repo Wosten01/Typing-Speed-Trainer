@@ -5,15 +5,18 @@ import ReloadIcon from "../Buttons/ReloadIcon";
 import Stats from "./Stats";
 
 interface ModalProps {
-  isOpen: boolean;
   inputRef: React.RefObject<HTMLInputElement>;
   handleNextText: () => void;
   handleRestart: () => void;
 }
 
-function Modal({ isOpen, handleNextText, handleRestart }: ModalProps) {
+function Modal({ handleNextText, handleRestart }: ModalProps) {
+  const { isOpen } = useSelector(
+    (state: RootState) => state.modal
+  );
+
   if (!isOpen) return null;
-  
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className=" bg-dark-background p-6 rounded-xl shadow-lg max-w-md w-full ">
