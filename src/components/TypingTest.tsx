@@ -57,6 +57,27 @@ const TypingTest: React.FC = () => {
     }
   }, [input, text, testStarted, dispatch]);
 
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (
+      !testStarted &&
+      e.key !== "Shift" &&
+      e.key !== "Control" &&
+      e.key !== "Alt"
+    ) {
+      setTestStarted(true);
+      dispatch(startTimer());
+      inputRef.current?.focus();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [testStarted, input, text, dispatch]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (testStarted) {
       const value = e.target.value;
@@ -91,7 +112,7 @@ const TypingTest: React.FC = () => {
         >
           <p>
             <span className="font-bold text-dark-accent text-2xl">
-              {`Words Typed: ${wordCount}/${wordsAmount}`}
+              {`Typed: ${wordCount}/${wordsAmount}`}
             </span>
           </p>
           <p className="text-left">
@@ -135,9 +156,6 @@ const TypingTest: React.FC = () => {
 
         <div className="mt-4 text-center flex flex-col justify-center">
           <div className="flex justify-center gap-x-5">
-            {!testStarted && !(endTime > 0) && (
-              <Button text={"Start Test"} onClick={handleStart} />
-            )}
             <Button text={"Next text"} onClick={handleNextText} />
           </div>
           {endTime > 0 && (
