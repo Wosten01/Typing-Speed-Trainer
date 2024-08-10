@@ -14,6 +14,7 @@ import {
   regenerateText,
 } from "../store/typingSlice";
 import Button from "./Button";
+import ReloadIcon from "./ReloadIcon";
 
 const TypingTest: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -30,10 +31,10 @@ const TypingTest: React.FC = () => {
   };
 
   const handleRestart = () => {
-    setTestStarted(true);
-    dispatch(startTimer());
     dispatch(resetEndTimer());
     dispatch(resetInput());
+    dispatch(setCorrect({ num: 0 }));
+    dispatch(setIncorrect({ num: 0 }));
     inputRef.current?.focus();
   };
 
@@ -156,15 +157,20 @@ const TypingTest: React.FC = () => {
 
         <div className="mt-4 text-center flex flex-col justify-center">
           <div className="flex justify-center gap-x-5">
-            <Button text={"Next text"} onClick={handleNextText} />
+            <ReloadIcon
+              onClick={handleNewText}
+              size={{
+                width: 30,
+                height: 30,
+              }}
+            />
           </div>
           {endTime > 0 && (
             <span className="flex justify-center gap-x-10">
               <Button text={"Restart Test"} onClick={handleRestart} />
-              <Button text={"New Text"} onClick={handleNewText} />
             </span>
           )}
-          <div className="text-lg mt-4 text-dark-accent">
+          {/* <div className="text-lg mt-4 text-dark-accent">
             <p>
               Correct Characters:{" "}
               <span className="font-bold text-dark-accent">{correct}</span>
@@ -173,7 +179,7 @@ const TypingTest: React.FC = () => {
               Incorrect Characters:{" "}
               <span className="font-bold text-dark-accent">{incorrect}</span>
             </p>
-          </div>
+          </div> */}
           {endTime > 0 && (
             <p className="mt-4 text-lg font-semibold text-dark-accent">
               {`WPM: ${(
