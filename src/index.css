@@ -3,18 +3,13 @@
 @tailwind utilities;
 
 .no-copy {
-  user-select: none; /* Отключает выделение текста */
-  -webkit-user-select: none; /* Отключает выделение текста в WebKit браузерах */
-  -moz-user-select: none; /* Отключает выделение текста в Firefox */
-  -ms-user-select: none; /* Отключает выделение текста в Internet Explorer */
+  user-select: none; 
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none; 
 }
 
-/* .blinking-cursor {
-  animation: blink 0.9s ease-in-out infinite;
-  position: absolute;
-} */
 .blinking-cursor {
-  animation: blink 0.9s ease-in-out infinite;
   position: absolute;
   left: calc(-0.3em); 
   top: 0;

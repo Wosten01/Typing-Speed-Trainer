@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../store";
+import { WORD_PLUS_SPACE } from "../data/constants";
 import {
   setInput,
   setCorrect,
@@ -13,7 +14,6 @@ import {
   regenerateText,
 } from "../store/typingSlice";
 import Button from "./Button";
-import { WORD_PLUS_SPACE } from "../data/constants";
 
 const TypingTest: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
