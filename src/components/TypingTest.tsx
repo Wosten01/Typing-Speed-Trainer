@@ -13,6 +13,7 @@ import {
   regenerateText,
 } from "../store/typingSlice";
 import Button from "./Button";
+import { WORD_PLUS_SPACE } from "../data/constants";
 
 const TypingTest: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -59,44 +60,46 @@ const TypingTest: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (testStarted) {
       const value = e.target.value;
-
-      dispatch(setInput(value));
-      const correctCount = value
-        .split("")
-        .filter((char, index) => char === text[index]).length;
-      const incorrectCount = value.length - correctCount;
-      dispatch(setCorrect({ num: correctCount }));
-      dispatch(setIncorrect({ num: incorrectCount }));
+      if (value.length <= text.length){
+        dispatch(setInput(value));
+        const correctCount = value
+          .split("")
+          .filter((char, index) => char === text[index]).length;
+        const incorrectCount = value.length - correctCount;
+        dispatch(setCorrect({ num: correctCount }));
+        dispatch(setIncorrect({ num: incorrectCount }));
+      }
+     
     }
   };
 
   const words = text.split("");
   const typedWords = input.split("");
-  const wordCount = input.trim().split(/\s+/).filter(Boolean).length;
+  const matches = input.match(WORD_PLUS_SPACE);
+  const wordCount =  matches ? matches.length + ((input.length == text.length)? 1 : 0) : 0;
   const wordsAmount = text.trim().split(/\s+/).length;
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-dark-background ">
       <div className="max-w-5xl w-full mx-4 p-4">
         <div
-          className={`flex flex-col p-4 text-dark-text bg-dark-background text-3xl font-mono  no-copy space-y-5 `}
+          className={`flex flex-col p-4 text-dark-text bg-dark-background text-3xl font-mono no-copy space-y-5 `}
           onClick={() => inputRef.current?.focus()}
         >
           <p>
             <span className="font-bold text-dark-accent text-2xl">
-              {" "}
               {`Words Typed: ${wordCount}/${wordsAmount}`}
             </span>
           </p>
-          <p>
+          <p className="text-left">
             {words.map((char, index) => {
               const typedChar = typedWords[index] || "";
-              const isLastTypedChar = index === typedWords.length;
+              const isLastTypedChar = index === typedWords.length ;
 
               return (
                 <span
                   key={index}
-                  className={`duration-[275ms] ${
+                  className={`relative duration-[375ms] ${
                     char === typedChar
                       ? "text-dark-main" // correct symbol
                       : typedChar
@@ -105,17 +108,12 @@ const TypingTest: React.FC = () => {
                   } space-x-0`}
                 >
                   {testStarted && isLastTypedChar && (
-                    <span className="blinking-cursor text-dark-accent">|</span>
+                    <span className="blinking-cursor text-dark-accent duration-500">|</span>
                   )}
-                  {char}
+                  {((index === typedWords.length - 1) && char === " " && typedChar !== char )? "_" : char}
                 </span>
               );
             })}
-            {testStarted && typedWords.length === words.length && (
-              <span className="blinking-cursor text-dark-accent p-0 m-0">
-                |
-              </span>
-            )}
           </p>
         </div>
 
@@ -138,7 +136,7 @@ const TypingTest: React.FC = () => {
           {endTime > 0 && (
             <span className="flex justify-center gap-x-10">
               <Button text={"Restart Test"} onClick={handleRestart} />
-              <Button text={" New Text"} onClick={handleNewText} />
+              <Button text={"New Text"} onClick={handleNewText} />
             </span>
           )}
           <div className="text-lg mt-4 text-dark-accent">

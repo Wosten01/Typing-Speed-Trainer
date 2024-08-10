@@ -9,10 +9,18 @@
   -ms-user-select: none; /* Отключает выделение текста в Internet Explorer */
 }
 
+/* .blinking-cursor {
+  animation: blink 0.9s ease-in-out infinite;
+  position: absolute;
+} */
 .blinking-cursor {
   animation: blink 0.9s ease-in-out infinite;
-  display: inline-block;
+  position: absolute;
+  left: calc(-0.3em); 
+  top: 0;
+  font-size: var(--font-size, 1em); 
 }
+
 
 @keyframes blink {
   0%, 100% {
