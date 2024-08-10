@@ -8,7 +8,8 @@ export const typingPhrases = [
     // "Leaves rustled softly in the breeze, creating a calming, natural symphony.",
     // "The old lighthouse stood tall against the backdrop of a fading sunset horizon.",
     // "Candles flickered warmly in the dark room, casting playful shadows on the walls.",
-    "A gentle stream meandered through the forest, reflecting the golden rays of sunlight.",
+    // "A gentle stream meandered through the forest, reflecting the golden rays of sunlight.",
+    "A gentle stream meandered.",
     "test test"
 ];
 

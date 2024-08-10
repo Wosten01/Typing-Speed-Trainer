@@ -26,7 +26,7 @@ const TypingTest: React.FC = () => {
   const handleStart = () => {
     setTestStarted(true);
     dispatch(startTimer());
-    inputRef.current?.focus(); 
+    inputRef.current?.focus();
   };
 
   const handleRestart = () => {
@@ -51,7 +51,7 @@ const TypingTest: React.FC = () => {
   };
 
   useEffect(() => {
-    if (input === text && testStarted) {
+    if (input.length === text.length && testStarted) {
       dispatch(endTimer());
       setTestStarted(false);
     }
@@ -60,7 +60,7 @@ const TypingTest: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (testStarted) {
       const value = e.target.value;
-      if (value.length <= text.length){
+      if (value.length <= text.length) {
         dispatch(setInput(value));
         const correctCount = value
           .split("")
@@ -69,16 +69,17 @@ const TypingTest: React.FC = () => {
         dispatch(setCorrect({ num: correctCount }));
         dispatch(setIncorrect({ num: incorrectCount }));
       }
-     
     }
   };
 
   const words = text.split("");
   const typedWords = input.split("");
 
-  const matches = input.match(WORD_PLUS_SPACE);
-  const wordCount =  matches ? matches.length + ((input.length == text.length)? 1 : 0) : 0;
-  
+  const matches = text.slice(0, input.length).match(WORD_PLUS_SPACE);
+  const wordCount = matches
+    ? matches.length + (input.length == text.length ? 1 : 0)
+    : 0;
+
   const wordsAmount = text.trim().split(/\s+/).length;
 
   return (
@@ -96,7 +97,7 @@ const TypingTest: React.FC = () => {
           <p className="text-left">
             {words.map((char, index) => {
               const typedChar = typedWords[index] || "";
-              const isLastTypedChar = index === typedWords.length ;
+              const isLastTypedChar = index === typedWords.length;
 
               return (
                 <span
@@ -110,9 +111,13 @@ const TypingTest: React.FC = () => {
                   } space-x-0`}
                 >
                   {testStarted && isLastTypedChar && (
-                    <span className="blinking-cursor text-dark-accent duration-500">|</span>
+                    <span className="blinking-cursor text-dark-accent">|</span>
                   )}
-                  {(char === " " && typedChar !== char  && index < typedWords.length)? "_" : char}
+                  {char === " " &&
+                  typedChar !== char &&
+                  index < typedWords.length
+                    ? "_"
+                    : char}
                 </span>
               );
             })}
@@ -124,7 +129,7 @@ const TypingTest: React.FC = () => {
           value={input}
           onChange={handleChange}
           ref={inputRef}
-          className="absolute opacity-0"
+          className="absolute opacity-0 "
           autoFocus
         />
 
