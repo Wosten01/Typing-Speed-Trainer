@@ -1,45 +1,19 @@
-import {
-  resetEndTimer,
-  resetInput,
-  setCorrect,
-  setIncorrect,
-} from "../../store/typingSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import ArrowIcon from "../Buttons/ArrowIcon";
 import ReloadIcon from "../Buttons/ReloadIcon";
 import Stats from "./Stats";
 
 interface ModalProps {
   isOpen: boolean;
-  onClose: () => void;
-  correct: number;
-  incorrect: number;
-  startTime: number;
-  endTime: number;
-  text: string;
   inputRef: React.RefObject<HTMLInputElement>;
   handleNextText: () => void;
+  handleRestart: () => void;
 }
 
-function Modal({
-  isOpen,
-  correct,
-  incorrect,
-  startTime,
-  endTime,
-  text,
-  inputRef,
-  handleNextText,
-}: ModalProps) {
+function Modal({ isOpen, handleNextText, handleRestart }: ModalProps) {
   if (!isOpen) return null;
-
-  const handleRestart = () => {
-    dispatch(resetEndTimer());
-    dispatch(resetInput());
-    dispatch(setCorrect({ num: 0 }));
-    dispatch(setIncorrect({ num: 0 }));
-    inputRef.current?.focus();
-  };
-
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className=" bg-dark-background p-6 rounded-xl shadow-lg max-w-md w-full ">
@@ -47,13 +21,7 @@ function Modal({
           <h2 className="text-xl font-bold mb-4 flex justify-center text-dark-main">
             Statistics
           </h2>
-          <Stats
-            correct={correct}
-            incorrect={incorrect}
-            startTime={startTime}
-            endTime={endTime}
-            text={text}
-          />
+          <Stats />
 
           <div className="flex justify-around">
             <ReloadIcon
@@ -80,6 +48,3 @@ function Modal({
 }
 
 export default Modal;
-function dispatch(arg0: any) {
-  throw new Error("Function not implemented.");
-}

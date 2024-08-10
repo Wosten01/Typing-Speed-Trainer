@@ -1,4 +1,7 @@
 import React from "react";
+import Timer from "./Timer";
+import { RootState } from "../store";
+import { useSelector } from "react-redux";
 
 interface TypingDisplayProps {
   words: string[];
@@ -19,22 +22,28 @@ function TypingDisplay({
   handleChange,
   testStarted,
 }: TypingDisplayProps) {
+  const { startTime } = useSelector((state: RootState) => state.typing);
+
   return (
     <main>
       <div
         className={`flex flex-col p-4 text-dark-text bg-dark-background text-2xl font-mono no-copy space-y-5 `}
         onClick={() => inputRef.current?.focus()}
       >
-        <p>
+        <div className=" flex justify-between">
           <span className="font-bold text-dark-accent text-lg">
             {`Typed: ${wordCount}/${wordsAmount}`}
           </span>
-        </p>
+          <p className=" mr-5">
+          <Timer startTime={startTime} testStarted={testStarted} />
+          </p>
+          
+        </div>
         <p className="text-left">
           {words.map((char, index) => {
             const typedChar = typedWords[index] || "";
             const isLastTypedChar = index === typedWords.length;
-
+            
             return (
               <span
                 key={index}

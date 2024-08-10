@@ -1,14 +1,13 @@
-import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import Timer from "../Timer";
 
-interface StatsProps {
-  correct: number;
-  incorrect: number;
-  startTime: number;
-  endTime: number;
-  text: string;
-}
+function Stats() {
 
-function Stats({ correct, incorrect, startTime, endTime, text }: StatsProps) {
+  const { text, testStarted, endTime, startTime, correct, incorrect } = useSelector(
+    (state: RootState) => state.typing
+  )
+  
   const calculateWPM = () => {
     if (endTime > startTime) {
       const minutes = (endTime - startTime) / 60000;
@@ -26,6 +25,10 @@ function Stats({ correct, incorrect, startTime, endTime, text }: StatsProps) {
     <div className="flex justify-between mb-2">
       <span>Incorrect Characters:</span>
       <span className="font-bold">{incorrect}</span>
+    </div>
+    <div className="flex justify-between mb-2">
+      <span>Time:</span>
+      <Timer startTime={startTime} testStarted={testStarted} />
     </div>
     <div className="flex justify-between mt-4">
       <span className="font-semibold">WPM:</span>

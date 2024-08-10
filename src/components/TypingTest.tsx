@@ -11,20 +11,20 @@ import {
   resetEndTimer,
   resetInput,
   newText,
-  regenerateText,
+  resetStartTimer,
+  startTest,
+  stopTest,
 } from "../store/typingSlice";
-import ReloadIcon from "./Buttons/ReloadIcon";
-import Stats from "./Statistics/Stats";
 import ArrowIcon from "./Buttons/ArrowIcon";
 import TypingDisplay from "./TypingDisplay";
 import Modal from "./Statistics/Modal";
 
 function TypingTest() {
   const dispatch: AppDispatch = useDispatch();
-  const { text, input, correct, incorrect, startTime, endTime } = useSelector(
+  const { text, input, testStarted } = useSelector(
     (state: RootState) => state.typing
   );
-  const [testStarted, setTestStarted] = useState(false);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -38,16 +38,24 @@ function TypingTest() {
 
   const wordsAmount = text.trim().split(/\s+/).length;
 
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
-
   const handleNewText = () => {
-    setTestStarted(true);
+    dispatch(resetStartTimer());
     dispatch(resetEndTimer());
-    dispatch(resetInput());
+    dispatch(setCorrect({ num: 0 }));
+    dispatch(setIncorrect({ num: 0 }));
     dispatch(newText());
     inputRef.current?.focus();
-    dispatch(startTimer());
+    setIsModalOpen(false);
+  };
+
+  const handleRestart = () => {
+    dispatch(resetStartTimer());
+    dispatch(resetEndTimer());
+    dispatch(resetInput());
+    dispatch(setCorrect({ num: 0 }));
+    dispatch(setIncorrect({ num: 0 }));
+    inputRef.current?.focus();
+    setIsModalOpen(false);
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -57,7 +65,7 @@ function TypingTest() {
       e.key !== "Control" &&
       e.key !== "Alt"
     ) {
-      setTestStarted(true);
+      dispatch(startTest());
       dispatch(startTimer());
       inputRef.current?.focus();
     }
@@ -81,7 +89,8 @@ function TypingTest() {
   useEffect(() => {
     if (input.length === text.length && testStarted) {
       dispatch(endTimer());
-      setTestStarted(false);
+      dispatch(stopTest())
+      setIsModalOpen(true);
     }
   }, [input, text, testStarted, dispatch]);
 
@@ -92,10 +101,6 @@ function TypingTest() {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [testStarted, input, text, dispatch]);
-
-  function handleRestart(): void {
-    throw new Error("Function not implemented.");
-  }
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-dark-background ">
@@ -112,9 +117,6 @@ function TypingTest() {
 
         <div className="mt-4 text-center flex flex-col justify-center">
           <div className="flex justify-center gap-x-5">
-            {/* {endTime > 0 && (
-              
-            )} */}
             <ArrowIcon
               onClick={handleNewText}
               size={{
@@ -124,36 +126,14 @@ function TypingTest() {
               title="Next Text"
             />
           </div>
-          {endTime > 0 && (
-            <Stats
-              correct={correct}
-              incorrect={incorrect}
-              startTime={startTime}
-              endTime={endTime}
-              text={text}
-            />
-          )}
         </div>
-        <div className=" flex justify-center">
-          <button
-            onClick={handleOpenModal}
-            className="px-4 py-2 bg-green-500 text-white rounded"
-          >
-            Show Statistics
-          </button>
 
-          <Modal
-            isOpen={isModalOpen}
-            onClose={handleCloseModal}
-            correct={correct}
-            incorrect={incorrect}
-            startTime={startTime}
-            endTime={endTime}
-            text={text}
-            inputRef={inputRef}
-            handleNextText={handleNewText}
-          />
-        </div>
+        <Modal
+          isOpen={isModalOpen}
+          inputRef={inputRef}
+          handleNextText={handleNewText}
+          handleRestart={handleRestart}
+        />
       </div>
     </div>
   );

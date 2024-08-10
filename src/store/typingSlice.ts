@@ -14,6 +14,7 @@ const typingSlice = createSlice({
     incorrect: 0,
     startTime: 0,
     endTime: 0,
+    testStarted: false
   },
   reducers: {
     setInput: (state, action) => {
@@ -34,6 +35,9 @@ const typingSlice = createSlice({
     resetEndTimer: (state) => {
       state.endTime = 0;
     },
+    resetStartTimer: (state) => {
+      state.startTime = 0;
+    },
     resetInput: (state) => {
       state.input = "";
     },
@@ -41,8 +45,14 @@ const typingSlice = createSlice({
       state.text = getRandomPhrase();
     },
     newText: (state) => {
-      state.input = "";
+      typingSlice.caseReducers.resetInput(state)
       typingSlice.caseReducers.regenerateText(state);
+    },
+    startTest: (state) => {
+      state.testStarted = true
+    },
+    stopTest: (state) => {
+      state.testStarted = false
     },
   },
 });
@@ -57,6 +67,9 @@ export const {
   newText,
   resetInput,
   regenerateText,
+  resetStartTimer,
+  startTest,
+  stopTest
 } = typingSlice.actions;
 
 export default typingSlice.reducer;
