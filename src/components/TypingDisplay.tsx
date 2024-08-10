@@ -22,23 +22,22 @@ function TypingDisplay({
   return (
     <main>
       <div
-        className={`flex flex-col p-4 text-dark-text bg-dark-background text-2xl font-mono no-copy space-y-5 `}
+        className={`flex flex-col p-4 text-dark-text bg-dark-background text-2xl font-mono space-y-5 `}
         onClick={() => inputRef.current?.focus()}
       >
         <div className=" flex justify-between">
           <span className="font-bold text-dark-accent text-lg">
             {`Typed: ${wordCount}/${wordsAmount}`}
           </span>
-          <p className=" mr-5">
-          <Timer />
-          </p>
-          
+          <div className=" mr-5">
+            <Timer />
+          </div>
         </div>
-        <p className="text-left">
+        <p className="text-left no-copy">
           {words.map((char, index) => {
             const typedChar = typedWords[index] || "";
             const isLastTypedChar = index === typedWords.length;
-            
+
             return (
               <span
                 key={index}
@@ -50,7 +49,7 @@ function TypingDisplay({
                     : "text-dark-secondary" // unentered symbol
                 } space-x-0`}
               >
-                { isLastTypedChar && (
+                {isLastTypedChar && (
                   <span className="blinking-cursor text-dark-accent">|</span>
                 )}
                 {char === " " && typedChar !== char && index < typedWords.length

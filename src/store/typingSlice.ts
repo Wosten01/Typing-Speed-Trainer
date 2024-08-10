@@ -14,7 +14,8 @@ const typingSlice = createSlice({
     incorrect: 0,
     startTime: 0,
     endTime: 0,
-    testStarted: false
+    testStarted: false,
+    elapsedTime: 0,
   },
   reducers: {
     setInput: (state, action) => {
@@ -54,6 +55,12 @@ const typingSlice = createSlice({
     stopTest: (state) => {
       state.testStarted = false
     },
+    resetElapsedTime: (state) => {
+      state.elapsedTime = 0;
+    },
+    setElapsedTime: (state, action : PayloadAction<CountPayload>) => {
+      state.elapsedTime = action.payload.num;
+    },
   },
 });
 
@@ -69,7 +76,9 @@ export const {
   regenerateText,
   resetStartTimer,
   startTest,
-  stopTest
+  stopTest,
+  resetElapsedTime,
+  setElapsedTime
 } = typingSlice.actions;
 
 export default typingSlice.reducer;

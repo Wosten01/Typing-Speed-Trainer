@@ -14,6 +14,7 @@ import {
   resetStartTimer,
   startTest,
   stopTest,
+  resetElapsedTime,
 } from "../store/typingSlice";
 
 import { closeModal, openModal } from "../store/modalSlice";
@@ -45,6 +46,7 @@ function TypingTest() {
     dispatch(setCorrect({ num: 0 }));
     dispatch(setIncorrect({ num: 0 }));
     dispatch(newText());
+    dispatch(resetElapsedTime())
     inputRef.current?.focus();
     dispatch(closeModal())
   };
@@ -55,6 +57,7 @@ function TypingTest() {
     dispatch(resetInput());
     dispatch(setCorrect({ num: 0 }));
     dispatch(setIncorrect({ num: 0 }));
+    dispatch(resetElapsedTime())
     inputRef.current?.focus();
     dispatch(closeModal())
   };

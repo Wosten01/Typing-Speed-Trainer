@@ -1,21 +1,18 @@
-import { useState, useEffect } from "react";
-import { RootState } from "../store";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { AppDispatch, RootState } from "../store";
+import { useDispatch, useSelector } from "react-redux";
+import { resetElapsedTime, setElapsedTime } from "../store/typingSlice";
 
 function Timer() {
-  const { testStarted, startTime,} = useSelector(
+  const dispatch: AppDispatch = useDispatch();
+  const { testStarted, startTime, elapsedTime } = useSelector(
     (state: RootState) => state.typing
   );
-  const { isOpen } = useSelector(
-    (state: RootState) => state.modal
-  );
-
-  const [elapsedTime, setElapsedTime] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (startTime === 0) {
-        setElapsedTime(0);
+        dispatch(resetElapsedTime());
         return;
       }
       if (!testStarted) {
@@ -23,11 +20,13 @@ function Timer() {
       }
       const now = Date.now();
       const elapsed = Math.floor((now - startTime) / 1000);
-      setElapsedTime(elapsed);
+      dispatch(setElapsedTime({ num: elapsed }));
     }, 1000);
 
-    return () => clearInterval(interval);
-  }, [startTime, testStarted, isOpen]);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [startTime, testStarted]);
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
