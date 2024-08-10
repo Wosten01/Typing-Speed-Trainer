@@ -15,6 +15,7 @@ import {
 } from "../store/typingSlice";
 import Button from "./Button";
 import ReloadIcon from "./ReloadIcon";
+import Stats from "./Stats";
 
 const TypingTest: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -170,22 +171,15 @@ const TypingTest: React.FC = () => {
               <Button text={"Restart Test"} onClick={handleRestart} />
             </span>
           )}
-          {/* <div className="text-lg mt-4 text-dark-accent">
-            <p>
-              Correct Characters:{" "}
-              <span className="font-bold text-dark-accent">{correct}</span>
-            </p>
-            <p>
-              Incorrect Characters:{" "}
-              <span className="font-bold text-dark-accent">{incorrect}</span>
-            </p>
-          </div> */}
+
           {endTime > 0 && (
-            <p className="mt-4 text-lg font-semibold text-dark-accent">
-              {`WPM: ${(
-                text.split(" ").length / ((endTime - startTime) / 60000) || 0
-              ).toFixed(2)}`}
-            </p>
+            <Stats
+              correct={correct}
+              incorrect={incorrect}
+              startTime={startTime}
+              endTime={endTime}
+              text={text}
+            />
           )}
         </div>
       </div>
