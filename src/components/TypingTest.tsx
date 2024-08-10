@@ -13,53 +13,42 @@ import {
   newText,
   regenerateText,
 } from "../store/typingSlice";
-import Button from "./Buttons/Button";
 import ReloadIcon from "./Buttons/ReloadIcon";
-import Stats from "./Stats";
+import Stats from "./Statistics/Stats";
 import ArrowIcon from "./Buttons/ArrowIcon";
 import TypingDisplay from "./TypingDisplay";
+import Modal from "./Statistics/Modal";
 
-const TypingTest: React.FC = () => {
+function TypingTest() {
   const dispatch: AppDispatch = useDispatch();
   const { text, input, correct, incorrect, startTime, endTime } = useSelector(
     (state: RootState) => state.typing
   );
   const [testStarted, setTestStarted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleStart = () => {
-    setTestStarted(true);
-    dispatch(startTimer());
-    inputRef.current?.focus();
-  };
+  const words = text.split("");
+  const typedWords = input.split("");
 
-  const handleRestart = () => {
-    dispatch(resetEndTimer());
-    dispatch(resetInput());
-    dispatch(setCorrect({ num: 0 }));
-    dispatch(setIncorrect({ num: 0 }));
-    inputRef.current?.focus();
-  };
+  const matches = text.slice(0, input.length).match(WORD_PLUS_SPACE);
+  const wordCount = matches
+    ? matches.length + (input.length == text.length ? 1 : 0)
+    : 0;
+
+  const wordsAmount = text.trim().split(/\s+/).length;
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   const handleNewText = () => {
     setTestStarted(true);
-    dispatch(startTimer());
     dispatch(resetEndTimer());
     dispatch(resetInput());
     dispatch(newText());
     inputRef.current?.focus();
+    dispatch(startTimer());
   };
-
-  const handleNextText = () => {
-    dispatch(regenerateText());
-  };
-
-  useEffect(() => {
-    if (input.length === text.length && testStarted) {
-      dispatch(endTimer());
-      setTestStarted(false);
-    }
-  }, [input, text, testStarted, dispatch]);
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if (
@@ -73,14 +62,6 @@ const TypingTest: React.FC = () => {
       inputRef.current?.focus();
     }
   };
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [testStarted, input, text, dispatch]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (testStarted) {
@@ -97,15 +78,24 @@ const TypingTest: React.FC = () => {
     }
   };
 
-  const words = text.split("");
-  const typedWords = input.split("");
+  useEffect(() => {
+    if (input.length === text.length && testStarted) {
+      dispatch(endTimer());
+      setTestStarted(false);
+    }
+  }, [input, text, testStarted, dispatch]);
 
-  const matches = text.slice(0, input.length).match(WORD_PLUS_SPACE);
-  const wordCount = matches
-    ? matches.length + (input.length == text.length ? 1 : 0)
-    : 0;
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
 
-  const wordsAmount = text.trim().split(/\s+/).length;
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [testStarted, input, text, dispatch]);
+
+  function handleRestart(): void {
+    throw new Error("Function not implemented.");
+  }
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-dark-background ">
@@ -119,21 +109,12 @@ const TypingTest: React.FC = () => {
           handleChange={handleChange}
           testStarted={testStarted}
         />
-        
+
         <div className="mt-4 text-center flex flex-col justify-center">
           <div className="flex justify-center gap-x-5">
-            {endTime > 0 && (
-              <span className="flex justify-center gap-x-10">
-                <ReloadIcon
-                  onClick={handleRestart}
-                  size={{
-                    width: 30,
-                    height: 30,
-                  }}
-                  title="Restart Test"
-                />
-              </span>
-            )}
+            {/* {endTime > 0 && (
+              
+            )} */}
             <ArrowIcon
               onClick={handleNewText}
               size={{
@@ -153,9 +134,29 @@ const TypingTest: React.FC = () => {
             />
           )}
         </div>
+        <div className=" flex justify-center">
+          <button
+            onClick={handleOpenModal}
+            className="px-4 py-2 bg-green-500 text-white rounded"
+          >
+            Show Statistics
+          </button>
+
+          <Modal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            correct={correct}
+            incorrect={incorrect}
+            startTime={startTime}
+            endTime={endTime}
+            text={text}
+            inputRef={inputRef}
+            handleNextText={handleNewText}
+          />
+        </div>
       </div>
     </div>
   );
-};
+}
 
 export default TypingTest;
