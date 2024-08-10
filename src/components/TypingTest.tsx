@@ -75,8 +75,10 @@ const TypingTest: React.FC = () => {
 
   const words = text.split("");
   const typedWords = input.split("");
+
   const matches = input.match(WORD_PLUS_SPACE);
   const wordCount =  matches ? matches.length + ((input.length == text.length)? 1 : 0) : 0;
+  
   const wordsAmount = text.trim().split(/\s+/).length;
 
   return (
@@ -110,7 +112,7 @@ const TypingTest: React.FC = () => {
                   {testStarted && isLastTypedChar && (
                     <span className="blinking-cursor text-dark-accent duration-500">|</span>
                   )}
-                  {((index === typedWords.length - 1) && char === " " && typedChar !== char )? "_" : char}
+                  {(char === " " && typedChar !== char  && index < typedWords.length)? "_" : char}
                 </span>
               );
             })}
