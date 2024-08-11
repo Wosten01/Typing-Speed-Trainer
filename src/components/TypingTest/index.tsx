@@ -23,7 +23,7 @@ import Modal from "./Statistics/Modal";
 function TypingTest() {
   const dispatch: AppDispatch = useDispatch();
   const { text, input, testStarted } = useSelector(
-    (state: RootState) => state.typing
+    (state: RootState) => state.typing,
   );
   const { isOpen } = useSelector((state: RootState) => state.modal);
 

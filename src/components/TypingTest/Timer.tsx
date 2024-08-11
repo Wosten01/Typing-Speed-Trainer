@@ -11,7 +11,7 @@ import { setElapsedTime } from "../../store/typingSlice";
 function Timer() {
   const dispatch: AppDispatch = useDispatch();
   const { testStarted, startTime, elapsedTime } = useSelector(
-    (state: RootState) => state.typing
+    (state: RootState) => state.typing,
   );
 
   // The main time counting block.
@@ -35,7 +35,7 @@ function Timer() {
     const secs = seconds % 60;
     return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(
       2,
-      "0"
+      "0",
     )}`;
   };
 

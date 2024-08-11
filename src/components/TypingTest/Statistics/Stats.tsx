@@ -7,7 +7,7 @@ import Timer from "../Timer";
  */
 function Stats() {
   const { text, correct, incorrect, wpm } = useSelector(
-    (state: RootState) => state.typing
+    (state: RootState) => state.typing,
   );
 
   return (
@@ -17,7 +17,7 @@ function Stats() {
           Accuracy:
         </div>
         <div className="font-bold flex justify-center items-center">{`${Math.ceil(
-          (correct / text.length) * 100
+          (correct / text.length) * 100,
         )}%`}</div>
         <div className="flex justify-center items-center text-center">
           Correct Characters:

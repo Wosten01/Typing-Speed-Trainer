@@ -57,8 +57,8 @@ function TypingDisplay({
                   char === typedChar
                     ? "text-dark-main" // correct symbol
                     : typedChar
-                    ? "text-dark-incorrect" // incorrect symbol
-                    : "text-dark-secondary" // unentered symbol
+                      ? "text-dark-incorrect" // incorrect symbol
+                      : "text-dark-secondary" // unentered symbol
                 } space-x-0`}
               >
                 {isLastTypedChar && (
