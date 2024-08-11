@@ -30,6 +30,10 @@ function TypingTest() {
     (state: RootState) => state.typing
   );
 
+  const { isOpen } = useSelector(
+    (state: RootState) => state.modal
+  );
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const words = text.split("");
@@ -69,6 +73,7 @@ function TypingTest() {
   const handleKeyDown = (e: KeyboardEvent) => {
     if (
       !testStarted &&
+      !isOpen &&
       e.key !== "Shift" &&
       e.key !== "Control" &&
       e.key !== "Alt"
@@ -109,7 +114,7 @@ function TypingTest() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [testStarted, input, text,]);
+  }, [testStarted, input, text, isOpen]);
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-dark-background ">
