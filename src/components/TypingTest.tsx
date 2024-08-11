@@ -15,6 +15,8 @@ import {
   startTest,
   stopTest,
   resetElapsedTime,
+  calculateWPM,
+  resetWPM,
 } from "../store/typingSlice";
 
 import { closeModal, openModal } from "../store/modalSlice";
@@ -48,6 +50,7 @@ function TypingTest() {
     dispatch(setIncorrect({ num: 0 }));
     dispatch(newText());
     dispatch(resetElapsedTime());
+    dispatch(resetWPM());
     inputRef.current?.focus();
   };
 
@@ -59,6 +62,7 @@ function TypingTest() {
     dispatch(setCorrect({ num: 0 }));
     dispatch(setIncorrect({ num: 0 }));
     dispatch(resetElapsedTime());
+    dispatch(resetWPM());
     inputRef.current?.focus();
   };
 
@@ -93,10 +97,11 @@ function TypingTest() {
   useEffect(() => {
     if (input.length === text.length && testStarted) {
       dispatch(endTimer());
+      dispatch(calculateWPM());
       dispatch(stopTest());
       dispatch(openModal());
     }
-  }, [input, text, testStarted, dispatch]);
+  }, [input, testStarted]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
@@ -104,7 +109,7 @@ function TypingTest() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [testStarted, input, text, dispatch]);
+  }, [testStarted, input, text,]);
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-dark-background ">

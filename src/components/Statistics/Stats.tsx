@@ -3,20 +3,28 @@ import { RootState } from "../../store";
 import Timer from "../Timer";
 
 function Stats() {
-  const { text, endTime, startTime, correct, incorrect } = useSelector(
+  const { text, correct, incorrect, wpm } = useSelector(
     (state: RootState) => state.typing
   );
 
-  const calculateWPM = () => {
-    if (endTime > startTime) {
-      const minutes = (endTime - startTime) / 60000;
-      return (text.split(" ").length / minutes).toFixed(2);
-    }
-    return "0.00";
-  };
+  // const calculateWPM = () => {
+  //   if (endTime > startTime) {
+  //     return (endTime - startTime) / 60000;
+  //   }
+  //   return 0;
+  // };
+
+  // const getWPM = () => {
+  //   if (endTime > startTime) {
+  //     const minutes = (endTime - startTime) / 60000;
+  //     console.log(minutes)
+  //     return ;
+  //   }
+  //   return "0.00";
+  // };
 
   return (
-    <div className="mt-4 text-dark-accent text-xl tracking-wide">
+    <div className="mt-4 text-dark-accent text-lg sm:text-xl  tracking-wide">
   <div className="grid grid-cols-2 gap-4 p-4 border border-dark-main rounded-lg shadow-sm bg-dark-background">
     <div className="flex justify-center items-center text-center">Accuracy:</div>
     <div className="font-bold flex justify-center items-center">{`${Math.ceil(
@@ -34,7 +42,7 @@ function Stats() {
       <div className=" grid grid-cols-2">
         <span className="flex justify-center">WPM:</span>
         <span className="font-bold flex justify-center">
-          {calculateWPM()}
+          {wpm.toFixed(2)}
         </span>
       </div>
     </div>

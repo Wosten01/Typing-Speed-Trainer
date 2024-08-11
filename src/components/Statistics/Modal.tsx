@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import ArrowIcon from "../Buttons/ArrowIcon";
 import ReloadIcon from "../Buttons/ReloadIcon";
 import Stats from "./Stats";
@@ -22,7 +22,7 @@ function Modal({ handleNextText, handleRestart }: ModalProps) {
         modalRef.current &&
         !modalRef.current.contains(event.target as Node)
       ) {
-        handleRestart()
+        handleRestart();
       }
     };
 
@@ -44,7 +44,7 @@ function Modal({ handleNextText, handleRestart }: ModalProps) {
         className="bg-dark-background p-6 rounded-xl shadow-lg w-11/12 max-w-xs sm:max-w-md"
       >
         <div className="flex justify-center flex-col gap-y-7">
-          <h2 className="text-2xl tracking-wide font-bold font-mono flex items-center justify-center text-dark-main">
+          <h2 className="text-xl sm:text-2xl  tracking-wide font-bold font-mono flex items-center justify-center text-dark-main">
             Statistics
           </h2>
           <Stats />

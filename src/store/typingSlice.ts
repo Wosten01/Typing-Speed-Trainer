@@ -16,6 +16,7 @@ const typingSlice = createSlice({
     endTime: 0,
     testStarted: false,
     elapsedTime: 0,
+    wpm: 0,
   },
   reducers: {
     setInput: (state, action) => {
@@ -46,20 +47,30 @@ const typingSlice = createSlice({
       state.text = getRandomPhrase();
     },
     newText: (state) => {
-      typingSlice.caseReducers.resetInput(state)
+      typingSlice.caseReducers.resetInput(state);
       typingSlice.caseReducers.regenerateText(state);
     },
     startTest: (state) => {
-      state.testStarted = true
+      state.testStarted = true;
     },
     stopTest: (state) => {
-      state.testStarted = false
+      state.testStarted = false;
     },
     resetElapsedTime: (state) => {
       state.elapsedTime = 0;
     },
-    setElapsedTime: (state, action : PayloadAction<CountPayload>) => {
+    setElapsedTime: (state, action: PayloadAction<CountPayload>) => {
       state.elapsedTime = action.payload.num;
+    },
+    calculateWPM: (state) => {
+      if (state.endTime > state.startTime) {
+        state.wpm = state.text.split(" ").length / ((state.endTime - state.startTime) / 60000);
+      } else {
+        state.wpm = 0;
+      }
+    },
+    resetWPM: (state) => {
+      state.wpm = 0;
     },
   },
 });
@@ -78,7 +89,9 @@ export const {
   startTest,
   stopTest,
   resetElapsedTime,
-  setElapsedTime
+  setElapsedTime,
+  calculateWPM,
+  resetWPM,
 } = typingSlice.actions;
 
 export default typingSlice.reducer;
