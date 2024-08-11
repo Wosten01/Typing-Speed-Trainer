@@ -8,19 +8,15 @@ import {
   setIncorrect,
   startTimer,
   endTimer,
-  resetEndTimer,
-  resetInput,
-  newText,
-  resetStartTimer,
+  resetState,
   startTest,
   stopTest,
-  resetElapsedTime,
   calculateWPM,
-  resetWPM,
+  regenerateText,
 } from "../store/typingSlice";
 
 import { closeModal, openModal } from "../store/modalSlice";
-import ArrowIcon from "./Buttons/ArrowIcon";
+import ArrowButton from "./Buttons/ArrowButton";
 import TypingDisplay from "./TypingDisplay";
 import Modal from "./Statistics/Modal";
 
@@ -29,45 +25,35 @@ function TypingTest() {
   const { text, input, testStarted } = useSelector(
     (state: RootState) => state.typing
   );
-
   const { isOpen } = useSelector((state: RootState) => state.modal);
 
   const inputRef = useRef<HTMLInputElement>(null);
-
   const words = text.split("");
   const typedWords = input.split("");
-
   const matches = text.slice(0, input.length).match(WORD_PLUS_SPACE);
   const wordCount = matches
     ? matches.length + (input.length == text.length ? 1 : 0)
     : 0;
-
   const wordsAmount = text.trim().split(/\s+/).length;
 
+  // Remove the previous value of typing state 
+  // and form a new text for input.
   const handleNewText = () => {
     dispatch(closeModal());
-    dispatch(resetStartTimer());
-    dispatch(resetEndTimer());
-    dispatch(setCorrect({ num: 0 }));
-    dispatch(setIncorrect({ num: 0 }));
-    dispatch(newText());
-    dispatch(resetElapsedTime());
-    dispatch(resetWPM());
+    dispatch(regenerateText());
     inputRef.current?.focus();
   };
 
+   // Restart test.
   const handleRestart = () => {
     dispatch(closeModal());
-    dispatch(resetStartTimer());
-    dispatch(resetEndTimer());
-    dispatch(resetInput());
-    dispatch(setCorrect({ num: 0 }));
-    dispatch(setIncorrect({ num: 0 }));
-    dispatch(resetElapsedTime());
-    dispatch(resetWPM());
+    dispatch(resetState())
     inputRef.current?.focus();
   };
 
+ 
+  // Handler so that when you click on the button, 
+  // the test starts immediately.  
   const handleKeyDown = (e: KeyboardEvent) => {
     if (
       !testStarted &&
@@ -82,6 +68,9 @@ function TypingTest() {
     }
   };
 
+  // Handler responsible for catching incoming 
+  // characters and and changing the parameters
+  // of correct data entry
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (testStarted) {
       const value = e.target.value;
@@ -97,6 +86,8 @@ function TypingTest() {
     }
   };
 
+  // Catch the moment when the data entry 
+  // is over and the test can be completed.
   useEffect(() => {
     if (input.length === text.length && testStarted) {
       dispatch(endTimer());
@@ -106,6 +97,7 @@ function TypingTest() {
     }
   }, [input, testStarted]);
 
+  // useEffect for handleKeyDown.
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
 
@@ -131,7 +123,7 @@ function TypingTest() {
 
         <div className="mt-4 text-center flex flex-col justify-center">
           <div className="flex justify-center gap-x-5">
-            <ArrowIcon
+            <ArrowButton
               onClick={handleNewText}
               size={{
                 width: 25,

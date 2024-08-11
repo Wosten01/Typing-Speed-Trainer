@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import ArrowIcon from "../Buttons/ArrowIcon";
-import ReloadIcon from "../Buttons/ReloadIcon";
+import ArrowButton from "../Buttons/ArrowButton";
+import ReloadButton from "../Buttons/ReloadButton";
 import Stats from "./Stats";
 import { useRef, useEffect } from "react";
 
@@ -11,11 +11,14 @@ interface ModalProps {
   handleRestart: () => void;
 }
 
+/**
+ * A modal window for displaying statistics.
+ */
 function Modal({ handleNextText, handleRestart }: ModalProps) {
   const { isOpen } = useSelector((state: RootState) => state.modal);
-
   const modalRef = useRef<HTMLDivElement>(null);
 
+  // Closing the modal window when clicking outside the window
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -29,7 +32,6 @@ function Modal({ handleNextText, handleRestart }: ModalProps) {
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -50,7 +52,7 @@ function Modal({ handleNextText, handleRestart }: ModalProps) {
           <Stats />
 
           <div className="flex justify-around">
-            <ReloadIcon
+            <ReloadButton
               onClick={handleRestart}
               size={{
                 width: 30,
@@ -58,7 +60,7 @@ function Modal({ handleNextText, handleRestart }: ModalProps) {
               }}
               title="Restart Test"
             />
-            <ArrowIcon
+            <ArrowButton
               onClick={handleNextText}
               size={{
                 width: 25,

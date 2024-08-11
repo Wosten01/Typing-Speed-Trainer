@@ -4,7 +4,10 @@ interface ArrowIconProps {
   title?: string;
 }
 
-function ArrowIcon({ onClick, size, title }: ArrowIconProps) {
+/**
+ * A button with a arrow icon
+ */
+function ArrowButton({ onClick, size, title }: ArrowIconProps) {
   return (
     <button
       title={title}
@@ -31,4 +34,4 @@ function ArrowIcon({ onClick, size, title }: ArrowIconProps) {
   );
 }
 
-export default ArrowIcon;
+export default ArrowButton;

@@ -1,5 +1,10 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
+
+/**
+ * A slice that stores variables and methods 
+ * for modal (statistic) window.
+ */
 const modalSlice = createSlice({
   name: "typing",
   initialState: {

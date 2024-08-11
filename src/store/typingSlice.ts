@@ -5,6 +5,10 @@ interface CountPayload {
   num: number;
 }
 
+/**
+ * A slice that stores variables 
+ * and methods for the typing process
+ */
 const typingSlice = createSlice({
   name: "typing",
   initialState: {
@@ -46,10 +50,10 @@ const typingSlice = createSlice({
     regenerateText: (state) => {
       state.text = getRandomPhrase();
     },
-    newText: (state) => {
-      typingSlice.caseReducers.resetInput(state);
-      typingSlice.caseReducers.regenerateText(state);
-    },
+    // newText: (state) => {
+    //   typingSlice.caseReducers.resetInput(state);
+    //   typingSlice.caseReducers.regenerateText(state);
+    // },
     startTest: (state) => {
       state.testStarted = true;
     },
@@ -72,6 +76,15 @@ const typingSlice = createSlice({
     resetWPM: (state) => {
       state.wpm = 0;
     },
+    resetState: (state) => {
+      typingSlice.caseReducers.resetInput(state);
+      typingSlice.caseReducers.resetStartTimer(state)
+      typingSlice.caseReducers.resetEndTimer(state)
+      typingSlice.caseReducers.resetWPM(state)
+      typingSlice.caseReducers.setCorrect(state, { type: 'typing/setCorrect', payload: { num: 0 } } )
+      typingSlice.caseReducers.setIncorrect(state, { type: 'typing/setIncorrect', payload: { num: 0 }})
+      typingSlice.caseReducers.resetElapsedTime(state)
+    }
   },
 });
 
@@ -82,7 +95,7 @@ export const {
   startTimer,
   endTimer,
   resetEndTimer,
-  newText,
+  resetState,
   resetInput,
   regenerateText,
   resetStartTimer,

@@ -11,6 +11,18 @@ interface TypingDisplayProps {
   testStarted: boolean;
 }
 
+
+/**
+ * The display component. 
+ * It combines 2 components:
+ * 
+ * 1. The text input component.
+ * 
+ * 2. A display component that displays the characters entered by the user 
+ * by coloring the original text. 
+ * The characters change color depending on whether the user has entered a character or not,
+ * whether it matches the one entered.
+ */
 function TypingDisplay({
   words,
   typedWords,
@@ -21,6 +33,7 @@ function TypingDisplay({
 }: TypingDisplayProps) {
   return (
     <main>
+      {/*  A display component. */}
       <div
         className={`flex flex-col p-4 text-dark-text bg-dark-background text-2xl font-mono space-y-5 `}
         onClick={() => inputRef.current?.focus()}
@@ -61,6 +74,7 @@ function TypingDisplay({
         </p>
       </div>
 
+      {/* The text input component */}
       <input
         id="wordsInput"
         type="text"

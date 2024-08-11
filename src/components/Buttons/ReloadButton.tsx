@@ -4,7 +4,10 @@ interface ReloadIconProps {
   title?: string;
 }
 
-function ReloadIcon({ onClick, size, title }: ReloadIconProps) {
+/**
+ * A button with a reboot icon.
+ */
+function ReloadButton({ onClick, size, title }: ReloadIconProps) {
   return (
     <button
       title={title}
@@ -25,4 +28,4 @@ function ReloadIcon({ onClick, size, title }: ReloadIconProps) {
   );
 }
 
-export default ReloadIcon;
+export default ReloadButton;
