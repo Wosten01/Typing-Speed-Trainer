@@ -62,13 +62,20 @@ function TypingDisplay({
       </div>
 
       <input
+        id="wordsInput"
         type="text"
         value={typedWords.join("")}
         onChange={handleChange}
         ref={inputRef}
         className="absolute opacity-0"
         autoFocus
-        spellCheck={false}
+        spellCheck="false"
+        autoComplete="off"
+        autoCapitalize="off"
+        autoCorrect="off"
+        data-gramm="false"
+        data-gramm_editor="false"
+        data-enable-grammarly="false"
       />
     </main>
   );

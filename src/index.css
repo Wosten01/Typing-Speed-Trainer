@@ -3,10 +3,6 @@
 @tailwind utilities;
 
 
-/* * {
-  border: 1px solid black;
-} */
-
 .no-copy {
   user-select: none;
   -webkit-user-select: none;
