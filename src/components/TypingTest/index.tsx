@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../store";
-import { WORD_PLUS_SPACE } from "../data/constants";
+import { RootState, AppDispatch } from "../../store";
+import { WORD_PLUS_SPACE } from "../../data/constants";
 import {
   setInput,
   setCorrect,
@@ -13,10 +13,10 @@ import {
   stopTest,
   calculateWPM,
   regenerateText,
-} from "../store/typingSlice";
+} from "../../store/typingSlice";
 
-import { closeModal, openModal } from "../store/modalSlice";
-import ArrowButton from "./Buttons/ArrowButton";
+import { closeModal, openModal } from "../../store/modalSlice";
+import ArrowButton from "../Shared/Buttons/ArrowButton";
 import TypingDisplay from "./TypingDisplay";
 import Modal from "./Statistics/Modal";
 

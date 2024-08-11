@@ -60,11 +60,11 @@ const typingSlice = createSlice({
     stopTest: (state) => {
       state.testStarted = false;
     },
-    resetElapsedTime: (state) => {
-      state.elapsedTime = 0;
-    },
     setElapsedTime: (state, action: PayloadAction<CountPayload>) => {
       state.elapsedTime = action.payload.num;
+    },
+    resetElapsedTime: (state) => {
+      state.elapsedTime = 0;
     },
     calculateWPM: (state) => {
       if (state.endTime > state.startTime) {

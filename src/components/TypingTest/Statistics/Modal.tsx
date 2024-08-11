@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import ArrowButton from "../Buttons/ArrowButton";
-import ReloadButton from "../Buttons/ReloadButton";
+import { RootState } from "../../../store";
+import ArrowButton from "../../Shared/Buttons/ArrowButton";
+import ReloadButton from "../../Shared/Buttons/ReloadButton";
 import Stats from "./Stats";
 import { useRef, useEffect } from "react";
 

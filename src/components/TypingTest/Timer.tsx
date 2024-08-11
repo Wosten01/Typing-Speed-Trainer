@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { AppDispatch, RootState } from "../store";
+import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { resetElapsedTime, setElapsedTime } from "../store/typingSlice";
+import { resetElapsedTime, setElapsedTime } from "../../store/typingSlice";
 
 
 /**
@@ -18,10 +18,6 @@ function Timer() {
   // The main time counting block.
   useEffect(() => {
     const interval = setInterval(() => {
-      if (startTime === 0) {
-        dispatch(resetElapsedTime());
-        return;
-      }
       if (!testStarted) {
         return;
       }
