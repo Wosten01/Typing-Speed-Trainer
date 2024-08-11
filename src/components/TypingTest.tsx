@@ -30,9 +30,7 @@ function TypingTest() {
     (state: RootState) => state.typing
   );
 
-  const { isOpen } = useSelector(
-    (state: RootState) => state.modal
-  );
+  const { isOpen } = useSelector((state: RootState) => state.modal);
 
   const inputRef = useRef<HTMLInputElement>(null);
 

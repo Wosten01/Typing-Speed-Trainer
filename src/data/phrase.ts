@@ -32,6 +32,7 @@ export const TYPING_PHRASES = [
 
   "A gentle stream meandered.",
   "test test",
+  "hello world hello world hello world",
 ];
 
 export const getRandomPhrase = () => {

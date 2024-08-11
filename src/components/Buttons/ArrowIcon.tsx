@@ -1,7 +1,7 @@
 interface ArrowIconProps {
   onClick?: () => void;
   size: { width: number; height: number };
-  title?: string
+  title?: string;
 }
 
 function ArrowIcon({ onClick, size, title }: ArrowIconProps) {
