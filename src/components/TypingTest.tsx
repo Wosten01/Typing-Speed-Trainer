@@ -41,25 +41,25 @@ function TypingTest() {
   const wordsAmount = text.trim().split(/\s+/).length;
 
   const handleNewText = () => {
+    dispatch(closeModal());
     dispatch(resetStartTimer());
     dispatch(resetEndTimer());
     dispatch(setCorrect({ num: 0 }));
     dispatch(setIncorrect({ num: 0 }));
     dispatch(newText());
-    dispatch(resetElapsedTime())
+    dispatch(resetElapsedTime());
     inputRef.current?.focus();
-    dispatch(closeModal())
   };
 
   const handleRestart = () => {
+    dispatch(closeModal());
     dispatch(resetStartTimer());
     dispatch(resetEndTimer());
     dispatch(resetInput());
     dispatch(setCorrect({ num: 0 }));
     dispatch(setIncorrect({ num: 0 }));
-    dispatch(resetElapsedTime())
+    dispatch(resetElapsedTime());
     inputRef.current?.focus();
-    dispatch(closeModal())
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -93,8 +93,8 @@ function TypingTest() {
   useEffect(() => {
     if (input.length === text.length && testStarted) {
       dispatch(endTimer());
-      dispatch(stopTest())
-      dispatch(openModal())
+      dispatch(stopTest());
+      dispatch(openModal());
     }
   }, [input, text, testStarted, dispatch]);
 
@@ -109,15 +109,17 @@ function TypingTest() {
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-dark-background ">
       <div className="max-w-5xl w-full mx-4 p-4">
-        <TypingDisplay
-          words={words}
-          typedWords={typedWords}
-          wordCount={wordCount}
-          wordsAmount={wordsAmount}
-          inputRef={inputRef}
-          handleChange={handleChange}
-          testStarted={testStarted}
-        />
+        <div className="min-h-44">
+          <TypingDisplay
+            words={words}
+            typedWords={typedWords}
+            wordCount={wordCount}
+            wordsAmount={wordsAmount}
+            inputRef={inputRef}
+            handleChange={handleChange}
+            testStarted={testStarted}
+          />
+        </div>
 
         <div className="mt-4 text-center flex flex-col justify-center">
           <div className="flex justify-center gap-x-5">
