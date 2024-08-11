@@ -1,6 +1,10 @@
 # Typing-Speed-Trainer
 
-![ezgif-6-f17f08f50f](https://github.com/user-attachments/assets/569e44cb-742a-4bab-9d23-096ac9a876c8)
+
+
+https://github.com/user-attachments/assets/89082d2f-83b1-40e5-9c36-f753d2c08a81
+
+
 
 **Typing Speed Trainer** is a pet-project web app that helps you improve your typing speed and accuracy.
 
