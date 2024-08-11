@@ -11,15 +11,14 @@ interface TypingDisplayProps {
   testStarted: boolean;
 }
 
-
 /**
- * The display component. 
+ * The display component.
  * It combines 2 components:
- * 
+ *
  * 1. The text input component.
- * 
- * 2. A display component that displays the characters entered by the user 
- * by coloring the original text. 
+ *
+ * 2. A display component that displays the characters entered by the user
+ * by coloring the original text.
  * The characters change color depending on whether the user has entered a character or not,
  * whether it matches the one entered.
  */

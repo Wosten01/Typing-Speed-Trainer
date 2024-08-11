@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import typingReducer from "./typingSlice";
-import modalReducer from "./modalSlice"
+import modalReducer from "./modalSlice";
 
 export const store = configureStore({
   reducer: {
     typing: typingReducer,
-    modal: modalReducer
+    modal: modalReducer,
   },
 });
 

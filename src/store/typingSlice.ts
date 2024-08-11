@@ -6,7 +6,7 @@ interface CountPayload {
 }
 
 /**
- * A slice that stores variables 
+ * A slice that stores variables
  * and methods for the typing process
  */
 const typingSlice = createSlice({
@@ -68,7 +68,9 @@ const typingSlice = createSlice({
     },
     calculateWPM: (state) => {
       if (state.endTime > state.startTime) {
-        state.wpm = state.text.split(" ").length / ((state.endTime - state.startTime) / 60000);
+        state.wpm =
+          state.text.split(" ").length /
+          ((state.endTime - state.startTime) / 60000);
       } else {
         state.wpm = 0;
       }
@@ -78,13 +80,19 @@ const typingSlice = createSlice({
     },
     resetState: (state) => {
       typingSlice.caseReducers.resetInput(state);
-      typingSlice.caseReducers.resetStartTimer(state)
-      typingSlice.caseReducers.resetEndTimer(state)
-      typingSlice.caseReducers.resetWPM(state)
-      typingSlice.caseReducers.setCorrect(state, { type: 'typing/setCorrect', payload: { num: 0 } } )
-      typingSlice.caseReducers.setIncorrect(state, { type: 'typing/setIncorrect', payload: { num: 0 }})
-      typingSlice.caseReducers.resetElapsedTime(state)
-    }
+      typingSlice.caseReducers.resetStartTimer(state);
+      typingSlice.caseReducers.resetEndTimer(state);
+      typingSlice.caseReducers.resetWPM(state);
+      typingSlice.caseReducers.setCorrect(state, {
+        type: "typing/setCorrect",
+        payload: { num: 0 },
+      });
+      typingSlice.caseReducers.setIncorrect(state, {
+        type: "typing/setIncorrect",
+        payload: { num: 0 },
+      });
+      typingSlice.caseReducers.resetElapsedTime(state);
+    },
   },
 });
 

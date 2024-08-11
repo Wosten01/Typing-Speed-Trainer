@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { resetElapsedTime, setElapsedTime } from "../../store/typingSlice";
-
+import { setElapsedTime } from "../../store/typingSlice";
 
 /**
- * The timer component. 
- * Shows in real time how much time has 
+ * The timer component.
+ * Shows in real time how much time has
  * passed since the beginning of the text.
  */
 function Timer() {

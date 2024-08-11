@@ -12,7 +12,7 @@ module.exports = {
           incorrect: "#F87171",
           accent: "#3B82F6",
         },
-        // 2: Dark theme 
+        // 2: Dark theme
         dark: {
           background: "#313437",
           main: "#D1D0C5",

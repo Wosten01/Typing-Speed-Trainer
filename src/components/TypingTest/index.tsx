@@ -36,25 +36,24 @@ function TypingTest() {
     : 0;
   const wordsAmount = text.trim().split(/\s+/).length;
 
-  // Remove the previous value of typing state 
+  // Remove the previous value of typing state
   // and form a new text for input.
   const handleNewText = () => {
     dispatch(closeModal());
-    dispatch(resetState())
+    dispatch(resetState());
     dispatch(regenerateText());
     inputRef.current?.focus();
   };
 
-   // Restart test.
+  // Restart test.
   const handleRestart = () => {
     dispatch(closeModal());
-    dispatch(resetState())
+    dispatch(resetState());
     inputRef.current?.focus();
   };
 
- 
-  // Handler so that when you click on the button, 
-  // the test starts immediately.  
+  // Handler so that when you click on the button,
+  // the test starts immediately.
   const handleKeyDown = (e: KeyboardEvent) => {
     if (
       !testStarted &&
@@ -69,7 +68,7 @@ function TypingTest() {
     }
   };
 
-  // Handler responsible for catching incoming 
+  // Handler responsible for catching incoming
   // characters and and changing the parameters
   // of correct data entry
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +86,7 @@ function TypingTest() {
     }
   };
 
-  // Catch the moment when the data entry 
+  // Catch the moment when the data entry
   // is over and the test can be completed.
   useEffect(() => {
     if (input.length === text.length && testStarted) {

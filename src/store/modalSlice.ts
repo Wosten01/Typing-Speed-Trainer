@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 /**
- * A slice that stores variables and methods 
+ * A slice that stores variables and methods
  * for modal (statistic) window.
  */
 const modalSlice = createSlice({
@@ -20,9 +19,6 @@ const modalSlice = createSlice({
   },
 });
 
-export const {
-    openModal,
-    closeModal
-} = modalSlice.actions;
+export const { openModal, closeModal } = modalSlice.actions;
 
 export default modalSlice.reducer;

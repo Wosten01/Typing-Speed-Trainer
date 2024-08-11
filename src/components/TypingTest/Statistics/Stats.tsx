@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import Timer from "../Timer";
 
-
 /**
  * The statistics component. Shows the overall typing statistics.
  */
