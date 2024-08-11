@@ -79,6 +79,7 @@ const typingSlice = createSlice({
       state.wpm = 0;
     },
     resetState: (state) => {
+      typingSlice.caseReducers.stopTest(state);
       typingSlice.caseReducers.resetInput(state);
       typingSlice.caseReducers.resetStartTimer(state);
       typingSlice.caseReducers.resetEndTimer(state);
