@@ -40,6 +40,7 @@ function TypingTest() {
   // and form a new text for input.
   const handleNewText = () => {
     dispatch(closeModal());
+    dispatch(resetState())
     dispatch(regenerateText());
     inputRef.current?.focus();
   };
