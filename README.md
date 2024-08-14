@@ -5,6 +5,7 @@
 https://github.com/user-attachments/assets/89082d2f-83b1-40e5-9c36-f753d2c08a81
 
 
+[You can try it here](https://typing-speed-trainer.netlify.app)
 
 **Typing Speed Trainer** is a pet-project web app that helps you improve your typing speed and accuracy.
 
